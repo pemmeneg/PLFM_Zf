@@ -1,0 +1,191 @@
+%! Author = Philipp Emmenegger
+%! Date = 10/06/2021
+
+\section{Types and Classes}
+\subsection{Type}
+\begin{itemize}
+    \item Name for a collection of related values
+    \item e.g. $Bool = False | True$
+    \item Every well-formed expression has a type
+    \item Type can be automatically calculated at compile time: \textit{type inference}
+    \item Removing the need for type checks at run time => safer /faster
+\end{itemize}
+\textbf{Type Error}
+\begin{itemize}
+    \item Applying a function to one or more arguments of the wrong type
+\end{itemize}
+
+\subsubsection{Basic Types}
+\begin{itemize}
+    \item \textbf{Bool}: logical values
+    \item \textbf{Char}: single values
+    \item \textbf{String}: strings of chars
+    \item \textbf{Int}: fixed-precision int
+    \item \textbf{Integer}: arbitrary-precision integers
+    \item \textbf{Float}: floating-point numbers
+\end{itemize}
+
+\subsubsection{List Types}
+\begin{itemize}
+    \item Sequence of values of the same type
+    \item Type of a list says nothing about the length
+    \item Lists of lists possible
+\end{itemize}
+\begin{lstlisting}
+[['a'], ['b','c']] :: [[Char]]
+\end{lstlisting}
+
+\subsubsection{Tuple Types}
+\begin{itemize}
+    \item Sequence of values of different types
+    \item Type of a tuple encodes its size
+    \item Type of components is unrestricted
+\end{itemize}
+\begin{lstlisting}
+(False, 'a', True) :: (Bool, Char, Bool)
+\end{lstlisting}
+
+\subsubsection{Function Types}
+\begin{itemize}
+    \item Mapping from values of one type to values of another
+    \item Argument and result types are unrestricted
+    \item Functions with multiple arguments / results possible using lists / tuples
+\end{itemize}
+\begin{lstlisting}
+add :: (Int, Int) -> Int
+add (x,y) = x + y
+\end{lstlisting}
+
+\subsubsection{Curried Functions}
+\begin{itemize}
+    \item Multiple input arguments typically implemented by returning functions as results
+    \item Functions that take their arguments one at a time
+    \item Functions with more that two arguments can be curried by returning nested functions
+\end{itemize}
+\begin{lstlisting}
+add' :: Int -> (Int -> Int)
+add' x y = x + y
+\end{lstlisting}
+
+\subsubsection{Currying Conventions}
+\begin{itemize}
+    \item $->$ operator is right associative
+    \item Rightmost type is the result
+    \item Precending types are the input
+    \item Consequence: Function application is left associative
+    \item All functions in Haskell are normally defined in curried form
+\end{itemize}
+
+\subsubsection{Polymorphic Functions}
+\begin{itemize}
+    \item Function type contains one or more type variables
+    \item Type variables must begin with lowercase letters
+\end{itemize}
+\begin{lstlisting}
+length :: [a] -> Int
+\end{lstlisting}
+
+\subsubsection{Overloaded Functions}
+\begin{itemize}
+    \item Function type contains one or more class constraints
+    \item Class constraints are expressed as type classes
+    \item Can be instantiated to any types that satisfy the constraints
+\end{itemize}
+\begin{lstlisting}
+(+) :: Num a => a -> a -> a
+\end{lstlisting}
+\textbf{Type classes in Haskell:}
+\begin{itemize}
+    \item Num: Numeric types
+    \item Eq: Equality types
+    \item Ord: Ordered types
+\end{itemize}
+\begin{lstlisting}
+(+) :: Num a => a -> a -> a
+(==) :: Eq a => a -> a -> Bool
+(<) :: Ord a => a -> a -> Bool
+\end{lstlisting}
+
+\subsection{Defining Functions}
+\subsubsection{Conditional Expressions}
+\begin{itemize}
+    \item Can be nested
+    \item Must always have an else branch
+\end{itemize}
+\begin{lstlisting}
+abs :: Int -> Int
+abs n = if n >= 0 then n else -n
+\end{lstlisting}
+
+\subsubsection{Guarded Equations}
+\begin{itemize}
+    \item Make definitions using multiple conditions
+    \item Easier to read
+\end{itemize}
+\begin{lstlisting}
+abs n
+    | n >= 0 = n
+    | otherwise = -n
+\end{lstlisting}
+
+\subsubsection{Pattern Matching}
+\begin{itemize}
+    \item Can be defined many different ways
+    \item Some ways may be more efficient
+    \item $\_$: wildcard pattern, matches any argument
+    \item Patterns are matched in order
+    \item Patterns may not repeat variables
+\end{itemize}
+\begin{lstlisting}
+not :: Bool -> Bool
+not False = True
+not True = False
+\end{lstlisting}
+
+\subsubsection{List Patterns}
+\begin{itemize}
+    \item Non-empty lists are constructed by repeated use of \textit{cons} operator: $(:)$
+    \item Functions on lists can be defined using $x : xs$ patterns
+\end{itemize}
+\begin{lstlisting}
+[1,2,3,4] = 1 : (2 : (3 : (4 : [])))
+\end{lstlisting}
+
+
+\subsection{Lambda Expressions}
+\begin{itemize}
+    \item Used to define anonymous functions
+    \item e.g. $\backslash x -> x + x$
+    \item Can give a formal meaning to functions defined using currying
+\end{itemize}
+\begin{lstlisting}
+add x y = x + y
+add = \x -> (\y -> x + y)
+\end{lstlisting}
+\textbf{Avoid naming functions that are only referenced once:}
+\begin{lstlisting}
+odds n = map f [0 .. n - 1]
+            where
+                f x = x * 2 + 1
+odss n = map (\x -> x * 2 + 1) [0 .. n - 1]
+\end{lstlisting}
+
+\subsection{Operators}
+\begin{itemize}
+    \item \textbf{Prefix} notation is used for function application
+    \item Is \textbf{Infix} notation desired, one may use operators (e.g. $+$)
+    \item Functions can be converted into operators using backticks: $`div`$
+    \item Operators can be converted to functions using brackets: $(+)$
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+

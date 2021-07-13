@@ -32,52 +32,17 @@
 % Code Snippets
 \usepackage{courier} %% Sets font for listing as Courier.
 \usepackage{listings}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{listings}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
-\usepackage{graphicx}
 
 \definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{sectionColor}{HTML}{7cbad4}
+\definecolor{subSectionColor}{HTML}{c7e5b6}
+\definecolor{subSubSectionColor}{HTML}{ffeca9}
+\definecolor{royalBlue}{HTML}{4A1FBF}
+\definecolor{midnightBlue}{HTML}{191970}
+\definecolor{codeBackground}{RGB}{245,245,245}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{darkGreen}{RGB}{0,150,0}
+\definecolor{DarkPurple}{rgb}{0.4, 0.1, 0.4}
 
 %define Javascript language
 \lstdefinelanguage{JavaScript}{
@@ -96,58 +61,43 @@ morestring=[b]"
 }
 
 \lstset{
-language=JavaScript,
-basicstyle=\fontsize{7}{7} \ttfamily,
-keywordstyle=\bfseries\color{RoyalBlue},
-stringstyle=\color{javared},
-commentstyle=\color{MidnightBlue},
-morecomment=[s][\color{MidnightBlue}]{/**}{*/},
+frame=none,
+captionpos=b,
+escapeinside={*'}{'*},
+language=haskell,
 tabsize=2,
+commentstyle=\it,
+stringstyle=\mdseries\rmfamily,
 showspaces=false,
+keywordstyle=\bfseries\color{RoyalBlue},
+columns=flexible,
+basicstyle=\small\sffamily,
 showstringspaces=false,
-texcl = true,
-rulecolor = \color{black},
-breaklines = true,
-aboveskip = 0.5em,
-belowskip = 0.5em
+morecomment=[l]\%,
+aboveskip = 0.2em,
+belowskip = 0.2em
 }
 
 
 
 
 % Define Section Format
-\titleformat{name=\section}[block]
-{\sffamily\normalsize}
-{}
-{0pt}
-{\colorsection}
+\titleformat{name=\section}[block]{\sffamily\small}{}{0pt}{\colorsection}
 \titlespacing*{\section}{0pt}{0pt}{0pt}
-
 \newcommand{\colorsection}[1]{%
-\colorbox{MidnightBlue!40}{\parbox{0.98\linewidth}{\color{black}\thesection\ #1}}}
-
+\colorbox{sectionColor!80}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
 
 % Define Subsection Format
-\titleformat{name=\subsection}[block]
-{\sffamily\small}
-{}
-{0pt}
-{\colorsubsection}
+\titleformat{name=\subsection}[block]{\sffamily\small}{}{0pt}{\colorsubsection}
 \titlespacing*{\subsection}{0pt}{0pt}{0pt}
-
 \newcommand{\colorsubsection}[1]{%
-\colorbox{YellowGreen!50}{\parbox{0.98\linewidth}{\color{black}\thesubsection\ #1}}}
+\colorbox{subSectionColor!80}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
 
 % Define SubSubsection Format
-\titleformat{name=\subsubsection}[block]
-{\sffamily\small}
-{}
-{0pt}
-{\colorsubsubsection}
+\titleformat{name=\subsubsection}[block]{\sffamily\small}{}{0pt}{\colorsubsubsection}
 \titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
-
 \newcommand{\colorsubsubsection}[1]{%
-\colorbox{Goldenrod!50}{\parbox{0.98\linewidth}{\color{black}\thesubsubsection\ #1}}}
+\colorbox{subSubSectionColor!60}{\parbox{0.98\linewidth}{\vspace{-1pt}\color{black}\ #1 \vspace{-2pt}}}}
 
 
 % -----------------------------------------------------------------------
@@ -158,7 +108,12 @@ belowskip = 0.5em
     \footnotesize
     \begin{multicols*}{3}
 
-        \input{../content/01_introduction.tex}
+        \input{content/01_introduction.tex}
+        \input{content/02_haskell_introduction.tex}
+        \input{content/03_types_and_classes.tex}
+        \input{content/04_list_comprehension.tex}
+        \input{content/05_recursive_functions.tex}
+        \input{content/06_declaring_types_and_classes.tex}
 
     \end{multicols*}
 \end{document}

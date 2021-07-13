@@ -1,0 +1,64 @@
+%! Author = Philipp Emmenegger
+%! Date = 10/06/2021
+
+\section{List Comprehension}
+\begin{itemize}
+    \item Define functions in very compact manner
+    \item Elegant way to perform iteration in declarative style
+\end{itemize}
+\begin{lstlisting}
+factors n = [x | x <- [1 .. n], n `mod` x == 0]
+prime n = factors n == [1, n]
+primes n = [x | x <- [2 .. n], prime x]
+\end{lstlisting}
+
+\subsection{Generators}
+\begin{itemize}
+    \item States how to generate values for a variable
+\end{itemize}
+\begin{lstlisting}
+x <- [1 .. 5]
+\end{lstlisting}
+\textbf{Multiple Generators}\\
+\begin{itemize}
+    \item Order of generators changes order of elements
+    \item Multiple generators act like nested loops
+\end{itemize}
+\begin{lstlisting}
+[(x,y) | x <- [1,2,3], y <- [4,5]]
+[(1,4),(1,5),(2,4),(2,5),(3,4),(3,5)]
+\end{lstlisting}
+\textbf{Dependant Generators}
+\begin{itemize}
+    \item Later generators can depend on variables, introduced by earlier generators
+\end{itemize}
+\begin{lstlisting}
+[(x,y) | x <- [1 .. 3], y <- [x .. 3]]
+\end{lstlisting}
+
+\subsection{Guards}
+\begin{itemize}
+    \item Restrict values produced by earlier generators
+\end{itemize}
+\begin{lstlisting}
+[x | x <- [1 .. 10], even x]
+\end{lstlisting}
+
+\subsection{zip - Function}
+\begin{itemize}
+    \item Maps two lists to a list of pairs
+\end{itemize}
+\begin{lstlisting}
+zip :: [a] -> [b] -> [(a, b)]
+\end{lstlisting}
+
+\subsection{String Comprehensions}
+\begin{itemize}
+    \item String: sequence of chars enclosed in double quotes
+    \item Internally strings are represented as lists of chars
+    \item Polymorphic list-functions can be applied to strings
+\end{itemize}
+\begin{lstlisting}
+"abc" :: String
+['a', 'b', 'c'] :: [Char]
+\end{lstlisting}
