@@ -1,0 +1,138 @@
+%! Author = Philipp Emmenegger
+%! Date = 14/07/2021
+
+\section{Higher-Order Functions}
+A function is called higher-order if it takes a function as an argument or returns a function as a result.
+\begin{lstlisting}
+twice :: (a -> a) -> a -> a
+twice f x = f (f x)
+\end{lstlisting}
+
+\subsection{Why are they useful?}
+\begin{itemize}
+    \item \textbf{Common programming idioms} can be encoded as functions within the language itself
+    \item \textbf{Domain specific languages} can be defined as collections of higher-order functions
+    \item \textbf{Algebraic properties} of higher-order functions can be used to reason about programs
+\end{itemize}
+
+\subsection{Examples}
+\subsubsection{map}
+Applies a function to every element of a list.
+\begin{lstlisting}
+map :: (a -> b) -> [a] -> [b]
+-- defined using list comprehension --
+map f xs = [f x | x <- xs]
+-- defined using recursion --
+map f [] = []
+map f (x : xs) = f x : map f xs
+-- for example: --
+map (+1) [1,3,5,7]
+[2,4,6,8]
+\end{lstlisting}
+
+\subsubsection{filter}
+Selects every element from a list that satisfies a predicate.
+\begin{lstlisting}
+filter :: (a -> Bool) -> [a] -> [a]
+-- defined using list comprehension --
+filter p xs = [x | x <- xs, p x]
+-- defined using recursion --
+filter p [] = []
+filter p (x : xs)
+    | p x = x : filter p xs
+    | otherwise = filter p xs
+-- example --
+filter even [1 .. 10]
+[2,4,6,8,10]
+\end{lstlisting}
+
+\subsubsection{foldr}
+\textbf{Why is foldr Useful?}
+\begin{itemize}
+    \item Some recursive functions on lists are easier to define
+    \item Properties of functions can be proved using albegraic properties of foldr
+    \item Advanced program optimisations can be simpler if foldr is used in place of explicit recurison
+\end{itemize}
+A number of functions on lists can be defined using the following simple pattern of recursion:
+\begin{lstlisting}[escapeinside={(*}{*)}]
+f [] = v
+f (x : xs) = x (*$\bigoplus$*) f xs
+\end{lstlisting}
+Some function $\bigoplus$ is applied to the head of non-empty lists, and $f$ to its tail.
+The value \textbf{v} is typically the identity element of $\bigoplus$.\\
+\textbf{For example:}
+\begin{lstlisting}
+sum [] = 0
+sum (x : xs) = x + sum xs
+
+product [] = 1
+product (x : xs) = x * product xs
+
+and [] = True
+and (x : xs) = x && and xs
+\end{lstlisting}
+The higher-order library function \textbf{foldr} (fold right) uses this pattern of recursion with the function $\bigoplus$ and the value \textbf{v} as arguments:
+\begin{lstlisting}
+-- defined using recursion --
+foldr :: (a -> b -> b) -> b -> [a] -> b
+foldr f v [] = v
+foldr f v (x : xs) = f x (foldr f v xs)
+-- example --
+sum = foldr (+) 0
+product = foldr (*) 1
+and = foldr (&&) True
+-- other examples -- 
+length = foldr (\ _ n -> 1 + n) 0
+reverse = foldr (\ x xs -> xs ++ [x]) [] 
+-- append function (++) --
+(++ ys) = foldr (:) ys
+\end{lstlisting} 
+
+\subsubsection{Other Library Functions}
+\textbf{(.):} returns the composition of two functions as a single function.
+\begin{lstlisting}
+(.) :: (b -> c) -> (a -> b) -> (a -> c)
+f . g = \ x -> f (g x)
+-- example --
+odd :: Int -> Bool
+odd = not . even
+\end{lstlisting}
+\textbf{all:} decides if every element of a list satisfies a given predicate.
+\begin{lstlisting}
+all :: (a -> Bool) -> [a] -> Bool
+all p xs = and [p x | x <- xs]
+-- example --
+all even [2,4,6,8,10]
+True
+adslnasdlasd
+\end{lstlisting}
+\textbf{any:} decides if at least one element of a list satisfies a predicate.
+\begin{lstlisting}
+any :: (a -> Bool) -> [a] -> Bool
+any p xs = or [p x | x <- xs]
+-- example --
+any (== ' ') "abc def"
+True
+\end{lstlisting}
+\textbf{takeWhile:} selects elements from a list while a predicate holds.
+\begin{lstlisting}
+takeWhile :: (a -> Bool) -> [a] -> [a]
+takeWhile p [] = []
+takeWhile p (x : xs)
+    | p x = x : takeWhile p xs
+    | otherwise = []
+-- example --
+takeWhile (/= ' ') "abc def"
+"abc"
+\end{lstlisting}
+\textbf{dropWhile:} drops elements from a list while a predicate holds.
+\begin{lstlisting}
+dropWhile :: (a -> Bool) -> [a] -> [a]
+dropWhile p [] = []
+dropWhile p (x : xs)
+    | p x = dropWhile p xs
+    | otherwise = x : xs
+-- example --
+dropWhile (== ' ') " abc"
+"abc"
+\end{lstlisting}
